@@ -1,6 +1,6 @@
 # Java集合
 - [**HashMap(基于JDK1.8)**](https://github.com/wangtengke/Notes/blob/master/notes/java%E9%9B%86%E5%90%88.md#java8-hashmap)
-- **ConcurrentHashMap(基于JDK1.8)**
+- [**ConcurrentHashMap(基于JDK1.8)**](https://github.com/wangtengke/Notes/blob/master/notes/java%E9%9B%86%E5%90%88.md#java8-concurrenthashmap)
 #
 ## Java8 HashMap
 Java8 对 HashMap 进行了一些修改，最大的不同就是利用了红黑树，所以其由 数组+链表+红黑树 组成。
