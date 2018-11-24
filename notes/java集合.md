@@ -1,5 +1,5 @@
 # Java集合
-- **HashMap(基于JDK1.8)**
+- [**HashMap(基于JDK1.8)**](https://github.com/wangtengke/Notes/blob/master/notes/java%E9%9B%86%E5%90%88.md#java8-hashmap)
 - **ConcurrentHashMap(基于JDK1.8)**
 #
 ## Java8 HashMap
