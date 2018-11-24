@@ -83,8 +83,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 ```
 和 Java7 稍微有点不一样的地方就是，Java7 是先扩容后插入新值的，Java8 先插值再扩容，不过这个不重要。
 
-### resize过程分析 
-数组扩容
+### resize过程分析（数组扩容） 
 resize() 方法用于初始化数组或数组扩容，每次扩容后，容量为原来的 2 倍，并进行数据迁移。
 ```java
 final Node<K,V>[] resize() {
