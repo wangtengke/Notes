@@ -28,7 +28,7 @@
 - **算法**
 ## Java
 - [**Java基础**](https://github.com/wangtengke/Notes/blob/master/notes/Java%E5%9F%BA%E7%A1%80.md)
-- **Java集合**
+- [**Java集合**](https://github.com/wangtengke/Notes/blob/master/notes/java%E9%9B%86%E5%90%88.md)
 - **Java并发**
 - **Java虚拟机**
 - **Java I/O**
