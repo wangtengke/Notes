@@ -7,7 +7,6 @@
 - [Java内存模型介绍](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#java内存模型介绍)
 - [happens-before](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#happens-before)
 - [重排序](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重排序)
-- [分析volatile](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#分析volatile)
 - [从JMM角度分析DCL](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#从jmm角度分析dcl)
 - [总结](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#总结)
 
@@ -131,6 +130,82 @@ Java提供volatile来保证一定的有序性。最著名的例子就是单例�
 
 volatile可以保证线程可见性且提供了一定的有序性，但是无法保证原子性。在JVM底层volatile是采用“内存屏障”来实现的。
 
+**volataile的内存语义及其实现**
+
+在JMM中，线程之间的通信采用共享内存来实现的。volatile的内存语义是：
+- 当写一个volatile变量时，JMM会把该线程对应的本地内存中的共享变量值立即刷新到主内存中。 
+- 当读一个volatile变量时，JMM会把该线程对应的本地内存设置为无效，直接从主内存中读取共享变量。
+
+所以volatile的写内存语义是直接刷新到主内存中，读的内存语义是直接从主内存中读取。 那么volatile的内存语义是如何实现的呢？对于一般的变量则会被重排序，而对于volatile则不能，这样会影响其内存语义，所以为了实现volatile的内存语义JMM会限制重排序。其重排序规则如下：
+
+1. 如果第一个操作为volatile读，则不管第二个操作是啥，都不能重排序。这个操作确保volatile读之后的操作不会被编译器重排序到volatile读之前；
+2. 当第二个操作为volatile写是，则不管第一个操作是啥，都不能重排序。这个操作确保volatile写之前的操作不会被编译器重排序到volatile写之后；
+3. 当第一个操作volatile写，第二操作为volatile读时，不能重排序。
+
+volatile的底层实现是通过插入内存屏障，但是对于编译器来说，发现一个最优布置来最小化插入内存屏障的总数几乎是不可能的，所以，JMM采用了保守策略。如下：
+- 在每一个volatile写操作前面插入一个StoreStore屏障
+- 在每一个volatile写操作后面插入一个StoreLoad屏障
+- 在每一个volatile读操作后面插入一个LoadLoad屏障
+- 在每一个volatile读操作后面插入一个LoadStore屏障
+
+StoreStore屏障可以保证在volatile写之前，其前面的所有普通写操作都已经刷新到主内存中。
+
+StoreLoad屏障的作用是避免volatile写与后面可能有的volatile读/写操作重排序。
+
+LoadLoad屏障用来禁止处理器把上面的volatile读与下面的普通读重排序。
+
+LoadStore屏障用来禁止处理器把上面的volatile读与下面的普通写重排序。
+
+下面我们就上面那个VolatileTest例子分析下：
+```java
+public class VolatileTest {
+    int i = 0;
+    volatile boolean flag = false;
+    public void write(){
+        i = 2;
+        flag = true;
+    }
+
+    public void read(){
+        if(flag){
+            System.out.println("---i = " + i); 
+        }
+    }
+}
+```
+![volatile语义]()
+上面通过一个例子稍微演示了volatile指令的内存屏障图例。
+
+volatile的内存屏障插入策略非常保守，其实在实际中，只要不改变volatile写-读得内存语义，编译器可以根据具体情况优化，省略不必要的屏障。如下（摘自方腾飞 《Java并发编程的艺术》）：
+```java
+public class VolatileBarrierExample {
+    int a = 0;
+    volatile int v1 = 1;
+    volatile int v2 = 2;
+    
+    void readAndWrite(){
+        int i = v1;     //volatile读
+        int j = v2;     //volatile读
+        a = i + j;      //普通读
+        v1 = i + 1;     //volatile写
+        v2 = j * 2;     //volatile写
+    }
+}
+```
+没有优化的示例图如下：
+![volatile语义1]()
+我们来分析上图有哪些内存屏障指令是多余的
+1. 这个肯定要保留了
+2. 禁止下面所有的普通写与上面的volatile读重排序，但是由于存在第二个volatile读，那个普通的读根本无法越过第二个volatile读。所以可以省略。
+3. 下面已经不存在普通读了，可以省略。
+4. 保留
+5. 保留
+6. 下面跟着一个volatile写，所以可以省略
+7. 保留
+8. 保留
+
+所以2、3、6可以省略，其示意图如下：
+![volatile语义2]()
 **总结**
 
 volatile看起来简单，但是要想理解它还是比较难的，这里只是对其进行基本的了解。volatile相对于synchronized稍微轻量些，在某些场合它可以替代synchronized，但是又不能完全取代synchronized，只有在某些场合才能够使用volatile。使用它必须满足如下两个条件：
@@ -347,7 +422,6 @@ A线程执行writer()，线程B执行read()，线程B在执行时能否读到 a 
 操作3 和操作4 之间也可以重排序，这里就不阐述了。但是他们之间存在一个控制依赖的关系，因为只有操作3 成立操作4 才会执行。当代码中存在控制依赖性时，会影响指令序列的执行的并行度，所以编译器和处理器会采用猜测执行来克服控制依赖对并行度的影响。假如操作3 和操作4重排序了，操作4 先执行，则先会把计算结果临时保存到重排序缓冲中，当操作3 为真时才会将计算结果写入变量i中
 
 通过上面的分析，**重排序不会影响单线程环境的执行结果，但是会破坏多线程的执行语义**。
-## 分析volatile
 ## 从JMM角度分析DCL
 ## 总结
 
