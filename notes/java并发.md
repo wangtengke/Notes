@@ -173,7 +173,7 @@ public class VolatileTest {
     }
 }
 ```
-![volatile语义]()
+![volatile语义](https://github.com/wangtengke/Notes/blob/master/imgs/volatile%E8%AF%AD%E4%B9%89.jpg)
 上面通过一个例子稍微演示了volatile指令的内存屏障图例。
 
 volatile的内存屏障插入策略非常保守，其实在实际中，只要不改变volatile写-读得内存语义，编译器可以根据具体情况优化，省略不必要的屏障。如下（摘自方腾飞 《Java并发编程的艺术》）：
@@ -193,7 +193,7 @@ public class VolatileBarrierExample {
 }
 ```
 没有优化的示例图如下：
-![volatile语义1]()
+![volatile语义1](https://github.com/wangtengke/Notes/blob/master/imgs/volatile%E8%AF%AD%E4%B9%891.jpg)
 我们来分析上图有哪些内存屏障指令是多余的
 1. 这个肯定要保留了
 2. 禁止下面所有的普通写与上面的volatile读重排序，但是由于存在第二个volatile读，那个普通的读根本无法越过第二个volatile读。所以可以省略。
@@ -205,7 +205,8 @@ public class VolatileBarrierExample {
 8. 保留
 
 所以2、3、6可以省略，其示意图如下：
-![volatile语义2]()
+![volatile语义2](https://github.com/wangtengke/Notes/blob/master/imgs/volatile%E8%AF%AD%E4%B9%892.jpg)
+
 **总结**
 
 volatile看起来简单，但是要想理解它还是比较难的，这里只是对其进行基本的了解。volatile相对于synchronized稍微轻量些，在某些场合它可以替代synchronized，但是又不能完全取代synchronized，只有在某些场合才能够使用volatile。使用它必须满足如下两个条件：
