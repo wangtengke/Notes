@@ -16,7 +16,7 @@
 - Condition
 - 并发工具类
 - CAS  
-
+# 关键字
 ## synchronized
 **实现原理**
 
@@ -137,3 +137,17 @@ volatile看起来简单，但是要想理解它还是比较难的，这里只是
 2. 该变量没有包含在具有其他变量的不变式中。
 
 volatile经常用于两个两个场景：状态标记量、double check
+
+# Java内存模型
+## happens-before
+## 重排序
+## 分析volatile
+## 从JMM角度分析DCL
+## 总结
+
+# J.U.C
+## AQS
+## 重入锁与读写锁
+## Condition
+## 并发工具类
+## CAS  
