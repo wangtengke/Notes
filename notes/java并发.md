@@ -1,21 +1,21 @@
 # Java并发
-## 关键字
+## [关键字](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#关键字-1)
 - [synchronized](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#synchronized)
 - [volatile](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#volatile)
 
-## Java内存模型
-- happens-before
-- 重排序
-- 分析volatile
-- 从JMM角度分析DCL
-- 总结
+## [Java内存模型](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#java内存模型-1)
+- [happens-before](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#happens-before)
+- [重排序](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重排序)
+- [分析volatile](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#分析volatile)
+- [从JMM角度分析DCL](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#从jmm角度分析dcl)
+- [总结](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#总结)
 
-## J.U.C
-- AQS
-- 重入锁与读写锁
-- Condition
-- 并发工具类
-- CAS  
+## [J.U.C](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#juc-1)
+- [AQS](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#aqs)
+- [重入锁与读写锁](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重入锁与读写锁)
+- [Condition](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#condition)
+- [并发工具类](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#并发工具类)
+- [CAS](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#cas)  
 # 关键字
 ## synchronized
 **实现原理**
