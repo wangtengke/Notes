@@ -4,7 +4,7 @@
 - [volatile](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#volatile)
 
 ## [Java内存模型](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#java内存模型-1)
-- [Java内存模型介绍]()
+- [Java内存模型介绍](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#java内存模型介绍)
 - [happens-before](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#happens-before)
 - [重排序](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重排序)
 - [分析volatile](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#分析volatile)
