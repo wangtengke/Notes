@@ -1,6 +1,6 @@
 # Java并发
 ## 关键字
-- [synchronized](https://github.com/wangtengke/Notes/new/master/notes#synchronized)
+- [synchronized](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#synchronized)
 - volatile
 
 ## Java内存模型
