@@ -148,19 +148,19 @@ Java 内存模型试图屏蔽各种硬件和操作系统的内存访问差异，
 
 加入高速缓存带来了一个新的问题：缓存一致性。如果多个缓存共享同一块主内存区域，那么多个缓存的数据可能会不一致，需要一些协议来解决这个问题。
 
-![memory1]()
+![memory1](https://github.com/wangtengke/Notes/blob/master/imgs/memory1.png)
 
 所有的变量都存储在主内存中，每个线程还有自己的工作内存，工作内存存储在高速缓存或者寄存器中，保存了该线程使用的变量的主内存副本拷贝。
 
 线程只能直接操作工作内存中的变量，不同线程之间的变量值传递需要通过主内存来完成。
 
-![memory2]()
+![memory2](https://github.com/wangtengke/Notes/blob/master/imgs/memory2.png)
 
 **内存间交互操作**
 
 Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。
 
-![memory3]()
+![memory3](https://github.com/wangtengke/Notes/blob/master/imgs/memory3.png)
 
 - read：把一个变量的值从主内存传输到工作内存中
 - load：在 read 之后执行，把 read 得到的值放入工作内存的变量副本中
