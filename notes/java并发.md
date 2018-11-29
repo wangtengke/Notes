@@ -421,13 +421,81 @@ public class RecordExample2 {
 A线程执行writer()，线程B执行read()，线程B在执行时能否读到 a = 1 呢？答案是不一定（注：X86CPU不支持写写重排序，如果是在x86上面操作，这个一定会是a=1）。
 
 由于操作1 和操作2 之间没有数据依赖性，所以可以进行重排序处理，操作3 和操作4 之间也没有数据依赖性，他们亦可以进行重排序，但是操作3 和操作4 之间存在控制依赖性。假如操作1 和操作2 之间重排序：
+
 ![重排序](https://github.com/wangtengke/Notes/blob/master/imgs/%E9%87%8D%E6%8E%92%E5%BA%8F.jpg)
+
 按照这种执行顺序线程B肯定读不到线程A设置的a值，在这里多线程的语义就已经被重排序破坏了。
 
 操作3 和操作4 之间也可以重排序，这里就不阐述了。但是他们之间存在一个控制依赖的关系，因为只有操作3 成立操作4 才会执行。当代码中存在控制依赖性时，会影响指令序列的执行的并行度，所以编译器和处理器会采用猜测执行来克服控制依赖对并行度的影响。假如操作3 和操作4重排序了，操作4 先执行，则先会把计算结果临时保存到重排序缓冲中，当操作3 为真时才会将计算结果写入变量i中
 
 通过上面的分析，**重排序不会影响单线程环境的执行结果，但是会破坏多线程的执行语义**。
+
 ## 从JMM角度分析DCL
+在早期的 JVM 中，synchronized（甚至是无竞争的 synchronized）存在这巨大的性能开销。因此，人们想出了一个“聪明”的技巧：双重检查锁定（double-checked locking）。人们想通过双重检查锁定来降低同步的开销。下面是使用双重检查锁定来实现延迟初始化的示例代码：
+```java
+ublic class DoubleCheckedLocking {                 //1
+    private static Instance instance;                    //2
+
+    public static Instance getInstance() {               //3
+        if (instance == null) {                          //4: 第一次检查 
+            synchronized (DoubleCheckedLocking.class) {  //5: 加锁 
+                if (instance == null)                    //6: 第二次检查 
+                    instance = new Instance();           //7: 问题的根源出在这里 
+            }                                            //8
+        }                                                //9
+        return instance;                                 //10
+    }                                                    //11
+}                                                        //12
+```
+如上面代码所示，如果第一次检查 instance 不为 null，那么就不需要执行下面的加锁和初始化操作。因此可以大幅降低 synchronized 带来的性能开销。上面代码表面上看起来，似乎两全其美：
+
+- 在多个线程试图在同一时间创建对象时，会通过加锁来保证只有一个线程能创建对象。
+- 在对象创建好之后，执行 getInstance() 将不需要获取锁，直接返回已创建好的对象。
+
+双重检查锁定看起来似乎很完美，但这是一个错误的优化！在线程执行到第 4 行代码读取到 instance 不为 null 时，instance 引用的对象有可能还没有完成初始化。
+
+**问题的根源**
+
+前面的双重检查锁定示例代码的第 7 行（instance = new Singleton();）创建一个对象。这一行代码可以分解为如下的三行伪代码：
+```java
+memory = allocate();   //1：分配对象的内存空间 
+ctorInstance(memory);  //2：初始化对象 
+instance = memory;     //3：设置 instance 指向刚分配的内存地址
+```
+上面三行伪代码中的 2 和 3 之间，可能会被重排序（在一些 JIT 编译器上，这种重排序是真实发生的，2 和 3 之间重排序之后的执行时序如下：
+```java
+memory = allocate();   //1：分配对象的内存空间 
+instance = memory;     //3：设置 instance 指向刚分配的内存地址 
+                       // 注意，此时对象还没有被初始化！
+ctorInstance(memory);  //2：初始化对象
+```
+请看下面的示意图（多线程下 2 和 3 重排的情况）：
+
+![muliThread重排序](https://github.com/wangtengke/Notes/blob/master/imgs/muliThread%E9%87%8D%E6%8E%92%E5%BA%8F.png)
+
+DoubleCheckedLocking 示例代码的第 7 行（instance = new Singleton();）如果发生重排序，另一个并发执行的线程 B 就有可能在第 4 行判断 instance 不为 null。线程 B 接下来将访问 instance 所引用的对象，但此时这个对象可能还没有被 A 线程初始化！
+
+**基于 volatile 的双重检查锁定的解决方案**
+
+对于前面的基于双重检查锁定来实现延迟初始化的方案（指 DoubleCheckedLocking 示例代码），我们只需要做一点小的修改（把 instance 声明为 volatile 型），就可以实现线程安全的延迟初始化。请看下面的示例代码：
+```java
+public class SafeDoubleCheckedLocking {
+    private volatile static Instance instance;
+
+    public static Instance getInstance() {
+        if (instance == null) {
+            synchronized (SafeDoubleCheckedLocking.class) {
+                if (instance == null)
+                    instance = new Instance();//instance 为 volatile，现在没问题了 
+            }
+        }
+        return instance;
+    }
+}
+```
+当声明对象的引用为 volatile 后，“问题的根源”的三行伪代码中的 2 和 3 之间的重排序，在多线程环境中将会被禁止。上面示例代码将按如下的时序执行：
+
+![volatile重排序](https://github.com/wangtengke/Notes/blob/master/imgs/volatile%E9%87%8D%E6%8E%92%E5%BA%8F.png)
 ## 总结
 
 # J.U.C
