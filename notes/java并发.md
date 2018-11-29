@@ -13,7 +13,6 @@
 ## [J.U.C](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#juc-1)
 - [AQS](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#aqs)
 - [重入锁与读写锁](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重入锁与读写锁)
-- [Condition](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#condition)
 - [并发工具类](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#并发工具类)
 - [非阻塞同步](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#非阻塞同步)  
 # 关键字
@@ -551,7 +550,6 @@ ReentrantLock还提供了公平锁也非公平锁的选择，构造方法接受�
 **读锁**：读锁为一个可重入的共享锁，它能够被多个线程同时持有，在没有其他写线程访问时，读锁总是或获取成功。
 
 **锁降级**：锁降级就意味着写锁是可以降级为读锁的，但是需要遵循先获取写锁、获取读锁在释放写锁的次序。注意如果当前线程先获取写锁，然后释放写锁，再获取读锁这个过程不能称之为锁降级，锁降级一定要遵循那个次序。
-## Condition
 ## 并发工具类
 ### CountdownLatch
 用来控制一个线程等待多个线程。
