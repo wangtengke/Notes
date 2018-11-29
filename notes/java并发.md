@@ -526,7 +526,7 @@ happens-before原则是JMM中非常重要的一个原则，它是判断数据是
 
 维护了一个计数器 cnt，每次调用 countDown() 方法会让计数器的值减 1，减到 0 的时候，那些因为调用 await() 方法而在等待的线程就会被唤醒。
 
-![CountdownLatch]()
+![CountdownLatch](https://github.com/wangtengke/Notes/blob/master/imgs/CountdownLatch.png)
 
 示例仍然使用开会案例。老板进入会议室等待5个人全部到达会议室才会开会。所以这里有两个线程老板等待开会线程、员工到达会议室：
 ```java
@@ -602,7 +602,8 @@ public CyclicBarrier(int parties) {
 }
 ```
 
-![CyclicBarrier]()
+![CyclicBarrier](https://github.com/wangtengke/Notes/blob/master/imgs/CyclicBarrier.png)
+例子如下：
 
 ```java
 public class CyclicBarrierTest  {
@@ -645,7 +646,7 @@ Thread-4到了
 
 Semaphore 类似于操作系统中的信号量，可以控制对互斥资源的访问线程数。
 
-![Semaphore]()
+![Semaphore](https://github.com/wangtengke/Notes/blob/master/imgs/Semaphore.png)
 
 我们已停车为示例：
 ```java
