@@ -521,4 +521,195 @@ happens-before原则是JMM中非常重要的一个原则，它是判断数据是
 ## 重入锁与读写锁
 ## Condition
 ## 并发工具类
+### CountdownLatch
+用来控制一个线程等待多个线程。
+
+维护了一个计数器 cnt，每次调用 countDown() 方法会让计数器的值减 1，减到 0 的时候，那些因为调用 await() 方法而在等待的线程就会被唤醒。
+
+![CountdownLatch]()
+
+示例仍然使用开会案例。老板进入会议室等待5个人全部到达会议室才会开会。所以这里有两个线程老板等待开会线程、员工到达会议室：
+```java
+public class CountDownLatchTest {
+    private static CountDownLatch countDownLatch = new CountDownLatch(5);
+
+    /**
+     * Boss线程，等待员工到达开会
+     */
+    static class BossThread extends Thread{
+        @Override
+        public void run() {
+            System.out.println("Boss在会议室等待，总共有" + countDownLatch.getCount() + "个人开会...");
+            try {
+                //Boss等待
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("所有人都已经到齐了，开会吧...");
+        }
+    }
+
+    //员工到达会议室
+    static class EmpleoyeeThread  extends Thread{
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + "，到达会议室....");
+            //员工到达会议室 count - 1
+            countDownLatch.countDown();
+        }
+    }
+
+    public static void main(String[] args){
+        //Boss线程启动
+        new BossThread().start();
+
+        for(int i = 0 ; i < countDownLatch.getCount() ; i++){
+            new EmpleoyeeThread().start();
+        }
+    }
+}
+```
+运行结果：
+```
+Boss在会议室等待，总共有5个人开会...
+Thread-3，到达会议室....
+Thread-1，到达会议室....
+Thread-2，到达会议室....
+Thread-5，到达会议室....
+Thread-4，到达会议室....
+所有人都已经到齐了，开会吧...
+```
+### CyclicBarrier
+用来控制多个线程互相等待，只有当多个线程都到达时，这些线程才会继续执行。
+
+和 CountdownLatch 相似，都是通过维护计数器来实现的。线程执行 await() 方法之后计数器会减 1，并进行等待，直到计数器为 0，所有调用 await() 方法而在等待的线程才能继续执行。
+
+CyclicBarrier 和 CountdownLatch 的一个区别是，CyclicBarrier 的计数器通过调用 reset() 方法可以循环使用，所以它才叫做循环屏障。
+
+CyclicBarrier 有两个构造函数，其中 parties 指示计数器的初始值，barrierAction 在所有线程都到达屏障的时候会执行一次。
+```java
+public CyclicBarrier(int parties, Runnable barrierAction) {
+    if (parties <= 0) throw new IllegalArgumentException();
+    this.parties = parties;
+    this.count = parties;
+    this.barrierCommand = barrierAction;
+}
+
+public CyclicBarrier(int parties) {
+    this(parties, null);
+}
+```
+
+![CyclicBarrier]()
+
+```java
+public class CyclicBarrierTest  {
+        private static CyclicBarrier cyclicBarrier;
+
+        static class CyclicBarrierThread extends Thread{
+            public void run() {
+                System.out.println(Thread.currentThread().getName() + "到了");
+                //等待
+                try {
+                    cyclicBarrier.await();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public static void main(String[] args){
+            cyclicBarrier = new CyclicBarrier(5, ()->{
+                    System.out.println("人都齐了，开会吧....");
+                }
+            );
+
+            for(int i = 0 ; i < 5 ; i++){
+                new CyclicBarrierThread().start();
+            }
+        }
+}
+```
+运行结果：
+```
+Thread-0到了
+Thread-2到了
+Thread-3到了
+Thread-1到了
+Thread-4到了
+人都齐了，开会吧....
+```
+### Semaphore
+
+Semaphore 类似于操作系统中的信号量，可以控制对互斥资源的访问线程数。
+
+![Semaphore]()
+
+我们已停车为示例：
+```java
+public class SemaphoreTest {
+
+    static class Parking{
+        //信号量
+        private Semaphore semaphore;
+
+        Parking(int count){
+            semaphore = new Semaphore(count);
+        }
+
+        public void park(){
+            try {
+                //获取信号量
+                semaphore.acquire();
+                long time = (long) (Math.random() * 10);
+                System.out.println(Thread.currentThread().getName() + "进入停车场，停车" + time + "秒..." );
+                Thread.sleep(time);
+                System.out.println(Thread.currentThread().getName() + "开出停车场...");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                semaphore.release();
+            }
+        }
+    }
+
+
+    static class Car extends Thread {
+        Parking parking ;
+
+        Car(Parking parking){
+            this.parking = parking;
+        }
+
+        @Override
+        public void run() {
+            parking.park();     //进入停车场
+        }
+    }
+
+    public static void main(String[] args){
+        Parking parking = new Parking(3);
+
+        for(int i = 0 ; i < 5 ; i++){
+            new Car(parking).start();
+        }
+    }
+}
+```
+运行结果：
+```
+Thread-2进入停车场，停车3秒...
+Thread-0进入停车场，停车6秒...
+Thread-1进入停车场，停车2秒...
+Thread-1开出停车场...
+Thread-3进入停车场，停车7秒...
+Thread-2开出停车场...
+Thread-4进入停车场，停车3秒...
+Thread-0开出停车场...
+Thread-4开出停车场...
+Thread-3开出停车场...
+```
+
 ## CAS  
