@@ -603,6 +603,7 @@ public CyclicBarrier(int parties) {
 ```
 
 ![CyclicBarrier](https://github.com/wangtengke/Notes/blob/master/imgs/CyclicBarrier.png)
+
 例子如下：
 
 ```java
