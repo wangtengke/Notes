@@ -2,7 +2,7 @@
 
 学习时间 | 学习内容| 备注
 ---|---|---
-第一周 (11.26)| row 1 col 2 |
+第一周 (11.26)| 1.学习java集合，hashmap和concurrenthashmap在1.7和1.8的区别<br>2.学习java并发相关知识，synchronized和volatile关键字<br>3.看java虚拟机的书 |写项目的串口程序
 第二周 (12.3)| row 2 col 2 |
 第三周 (12.10)| row 1 col 2 |
 第四周 (12.17)| row 2 col 2 |
