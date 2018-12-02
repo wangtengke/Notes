@@ -843,3 +843,120 @@ RejectedExecutionHandler handler)
 
 线程池执行Runnable有两个方法：execute(Runnable task)和submit(Runnable task)两个方法，区别是submit会返回一个Feature对象，Feature对象可以调用get()获取返回值，会阻塞当前线程直到任务完成，同时提供了get(long timeout, TimeUnit unit)超时抛出TimeOutException脱离阻塞。
 ## java Executors类四种线程池
+Executors提供的四种线程 
+
+1. newCachedThreadPool 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。 
+2. newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
+3. newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。 
+4. newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+
+**newCachedThreadPool**
+
+newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。示例如下
+```java
+public static void main(String[] args){
+    ExecutorService executorService = Executors.newCachedThreadPool();
+    for(int i=0;i<5;i++){
+        int index = i;
+        try {
+            Thread.sleep(index * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        executorService.execute(
+                ()->System.out.println(Thread.currentThread().getName() +  "," +index)
+        );
+    }
+}
+//控制台输出
+pool-1-thread-1,0
+pool-1-thread-1,1
+pool-1-thread-1,2
+pool-1-thread-1,3
+pool-1-thread-1,4
+```
+**newFixedThreadPool**
+
+newFixedThreadPool创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。示例如下
+```java
+public static void main(String[] args){
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(4);
+    for(int i=0;i<5;i++) {
+        int index = i;
+        fixedThreadPool.execute(()-> {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + ", " + index);
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+}
+//控制台输出，可以看到前四个线程很快执行，第五个使用的是第一个线程，因为这里设置的定长线程数为4
+pool-1-thread-2, 1
+pool-1-thread-3, 2
+pool-1-thread-1, 0
+pool-1-thread-4, 3
+pool-1-thread-3, 4
+```
+**newScheduledThreadPool**
+
+newScheduledThreadPool 创建一个定长线程池，支持周期和定时任务示例如下
+```java
+public static void main(String[] args){
+    ScheduledExecutorService scheduledThreadPool =  Executors.newScheduledThreadPool(5);
+    System.out.println("before:" + System.currentTimeMillis()/1000);
+    scheduledThreadPool.schedule(()-> System.out.println("延迟3秒执行的哦 :" + System.currentTimeMillis()/1000), 
+                                3, TimeUnit.SECONDS);
+    System.out.println("after :" +System.currentTimeMillis()/1000);
+}
+//控制台输出
+before:1543755988
+after :1543755988
+延迟3秒执行的哦 :1543755991
+```
+周期性输出
+```java
+public static void main(String[] args){
+    ScheduledExecutorService scheduledThreadPool =  Executors.newScheduledThreadPool(5);
+    System.out.println("before:" + System.currentTimeMillis()/1000);
+    scheduledThreadPool.scheduleAtFixedRate(()-> System.out.println("延迟3秒执行的哦 :" + System.currentTimeMillis()/1000),
+                                1,3, TimeUnit.SECONDS);
+    System.out.println("after :" +System.currentTimeMillis()/1000);
+}
+//控制台输出，第一次是1秒延迟，后面周期性3秒延迟
+before:1543756068
+after :1543756068
+延迟3秒执行的哦 :1543756069
+延迟3秒执行的哦 :1543756072
+延迟3秒执行的哦 :1543756075
+延迟3秒执行的哦 :1543756078
+延迟3秒执行的哦 :1543756081
+```
+**newSingleThreadExecutor**
+
+newSingleThreadExecutor 创建一个单线程化的线程池，只会用工作线程来执行任务，保证顺序，示例如下
+```java
+public static void main(String[] args){
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+    for (int i=0;i<10;i++) {
+        final int index = i;
+        singleThreadExecutor.execute(()->{
+                try {
+                    System.out.println(Thread.currentThread().getName() + "," + index);
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        });
+    }
+}
+//控制台输出
+pool-1-thread-1,0
+pool-1-thread-1,1
+pool-1-thread-1,2
+pool-1-thread-1,3
+pool-1-thread-1,4
+```
