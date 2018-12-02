@@ -16,8 +16,8 @@
 - [并发工具类](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#并发工具类)
 - [非阻塞同步](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#非阻塞同步)  
 ## 线程池
-- 线程池原理
-- java四种线程池
+- [线程池原理](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#线程池原理)
+- [java Executors类四种线程池](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#java Executors类四种线程池)
 # 关键字
 ## synchronized
 **实现原理**
@@ -795,6 +795,7 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 
 J.U.C 包提供了一个带有标记的原子引用类 AtomicStampedReference 来解决这个问题，它可以通过控制变量值的版本来保证 CAS 的正确性。大部分情况下 ABA 问题不会影响程序并发的正确性，如果需要解决 ABA 问题，改用传统的互斥同步可能会比原子类更高效。  
 
+# 线程池
 ## 线程池原理
 线程池好处：
 - 降低资源消耗
@@ -839,4 +840,4 @@ RejectedExecutionHandler handler)
    - Discardpolicy：不处理，丢弃掉
 
 线程池执行Runnable有两个方法：execute(Runnable task)和submit(Runnable task)两个方法，区别是submit会返回一个Feature对象，Feature对象可以调用get()获取返回值，会阻塞当前线程直到任务完成，同时提供了get(long timeout, TimeUnit unit)超时抛出TimeOutException脱离阻塞。
-## java四种线程池
+## java Executors类四种线程池
