@@ -15,6 +15,9 @@
 - [重入锁与读写锁](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#重入锁与读写锁)
 - [并发工具类](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#并发工具类)
 - [非阻塞同步](https://github.com/wangtengke/Notes/blob/master/notes/java%E5%B9%B6%E5%8F%91.md#非阻塞同步)  
+## 线程池
+- 线程池原理
+- java四种线程池
 # 关键字
 ## synchronized
 **实现原理**
@@ -791,3 +794,49 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。
 
 J.U.C 包提供了一个带有标记的原子引用类 AtomicStampedReference 来解决这个问题，它可以通过控制变量值的版本来保证 CAS 的正确性。大部分情况下 ABA 问题不会影响程序并发的正确性，如果需要解决 ABA 问题，改用传统的互斥同步可能会比原子类更高效。  
+
+## 线程池原理
+线程池好处：
+- 降低资源消耗
+- 提高响应速度
+- 提高线程的可管理性
+
+线程池的实现原理：
+1. 判断线程池（corePoolSize）里的核心线程是否都在执行任务，如果不是（核心线程空闲或者还有核心线程没有被创建）则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。
+
+2. 线程池判断工作队列（BlockingQueue）是否已满，如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。
+
+3. 判断线程池（maximumPoolSize）里的线程是否都处于工作状态，如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略（调用handle的rejectedExecution()方法）来处理这个任务。
+
+![线程池原理](https://github.com/wangtengke/Notes/blob/master/imgs/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86.jpg)
+
+线程池构造方法
+```java
+ThreadPoolExecutor(int corePoolSize,
+
+int maximumPoolSize,
+
+long keepAliveTime,
+
+TimeUnit unit,
+
+BlockingQueue<Runnable> workQueue,
+
+ThreadFactory threadFactory,
+
+RejectedExecutionHandler handler)
+```
+- **corePoolSize**  线程池核心线程数，当提交任务时发现线程数小于这个数，将直接创建新线程执行任务，即使有空余线程也会创建新的，如果调用了线程池的prestartAllCoreThreads()将提前创建好指定个数的线程（执行这一步需要获得全局锁）
+- **maximumPoolSize** 线程池最大线程数
+- **keepAliveTime** 线程空闲后，存活时间
+- **unit** 时间单位
+- **workQueue** 任务队列，如果传入的是无界队列，那maximumPoolSize无效
+- **threadFactory** 用于设置创建线程的工厂，可以用来给线程设置有意义的名字，如：```new ThreadFactoryBuilder().setNameFormat("xx-task-%d").build();```
+- **handler** 当线程和队列都满了后的处理策略，jdk的实现类：
+   - AbortPolicy：直接抛出异常
+   - CallerRunsPolicy：只用调用者所在线程来运行任务
+   - DiscardOldestPolicy：丢弃队列最近的一个任务，并执行当前任务
+   - Discardpolicy：不处理，丢弃掉
+
+线程池执行Runnable有两个方法：execute(Runnable task)和submit(Runnable task)两个方法，区别是submit会返回一个Feature对象，Feature对象可以调用get()获取返回值，会阻塞当前线程直到任务完成，同时提供了get(long timeout, TimeUnit unit)超时抛出TimeOutException脱离阻塞。
+## java四种线程池
