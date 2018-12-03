@@ -64,4 +64,4 @@
 - **Bootstrap html 样式** -
 ## AI人工智能
 - **Darknet框架** -
-- **YOLOv3 深度神经网络 ** -
+- **YOLOv3 深度神经网络** -
