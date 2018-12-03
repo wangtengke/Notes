@@ -60,8 +60,8 @@
 - **Django Python web 框架**
 ## 前端框架
 - **vue** -
-- **jquery js的库** -
-- **Bootstrap html 样式** -
+- **jquery js的库** 
+- **Bootstrap html 样式** 
 ## AI人工智能
-- **Darknet框架** -
-- **YOLOv3 深度神经网络** -
+- **Darknet框架** 
+- **YOLOv3 深度神经网络**
