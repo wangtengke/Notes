@@ -59,7 +59,7 @@
 ## 后台框架
 - **Django Python web 框架**
 ## 前端框架
-- **vue** -
+- **vue**
 - **jquery js的库** 
 - **Bootstrap html 样式** 
 ## AI人工智能
