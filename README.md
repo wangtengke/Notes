@@ -56,5 +56,12 @@
 - **RPC框架**
 - **消息中间件**
 ## 测试开发相关
-- **后台框架**
+## 后台框架
 - **Django Python web 框架**
+## 前端框架
+- **vue** -
+- **jquery js的库** -
+- **Bootstrap html 样式** -
+## AI人工智能
+- **Darknet框架** -
+- **YOLOv3 深度神经网络 ** -
