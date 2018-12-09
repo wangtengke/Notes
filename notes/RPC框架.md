@@ -1,17 +1,17 @@
 # RPC框架
-- 一、RPC基础知识
-  - RPC是什么
-  - 为什么要用RPC
-  - RPC原理与框架
-- 二、RPC框架核心技术点
-  - 服务暴露
-  - 远程代理对象
-  - 通信
-  - 序列化
-- 三、RPC与消息队列的区别
-  - 功能差异
-  - 使用场景差异
-  - 不适用场景说明
+- 一、[RPC基础知识](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#一rpc基础知识)
+  - [RPC是什么](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#rpc是什么)
+  - [为什么要用RPC](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#为什么要用rpc)
+  - [RPC原理与框架](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#rpc原理与框架)
+- 二、[RPC框架核心技术点](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#二rpc框架核心技术点)
+  - [服务暴露](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#服务暴露)
+  - [远程代理对象](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#远程代理对象)
+  - [通信](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#通信)
+  - [序列化](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#序列化)
+- 三、[RPC与消息队列的区别](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#三rpc与消息队列的区别)
+  - [功能差异](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#功能差异)
+  - [使用场景差异](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#使用场景差异)
+  - [不适用场景说明](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md#不适用场景说明)
 
 # 一、RPC基础知识
 ## RPC是什么
@@ -28,7 +28,7 @@ RPC（Remote Procedure Call Protocol）——远程过程调用协议，它是�
 ## RPC原理与框架
 如下图所示：
 
-![RPC流程]()
+![RPC流程](https://github.com/wangtengke/Notes/blob/master/imgs/rpc%E6%B5%81%E7%A8%8B.png)
 
 RPC 服务方通过 RpcServer 去导出（export）远程接口方法，而客户方通过 RpcClient 去引入（import）远程接口方法。客户方像调用本地方法一样去调用远程接口方法，RPC 框架提供接口的代理实现，实际的调用将委托给代理RpcProxy 。代理封装调用信息并将调用转交给RpcInvoker 去实际执行。在客户端的RpcInvoker 通过连接器RpcConnector 去维持与服务端的通道RpcChannel，并使用RpcProtocol 执行协议编码（encode）并将编码后的请求消息通过通道发送给服务方。
 RPC 服务端接收器 RpcAcceptor 接收客户端的调用请求，同样使用RpcProtocol 执行协议解码（decode）。解码后的调用信息传递给RpcProcessor 去控制处理调用过程，最后再委托调用给RpcInvoker 去实际执行并返回调用结果。如下是各个部分的详细职责：
