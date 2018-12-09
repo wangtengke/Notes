@@ -1,9 +1,9 @@
 # Disruptor
-- 背景
-- Java内置队列
-- ArrayBlockingQueue的问题
-- Disruptor的设计方案
-- 总结
+- [背景](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md#背景)
+- [Java内置队列](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md#java内置队列)
+- [ArrayBlockingQueue的问题](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md#ArrayBlockingQueue的问题)
+- [Disruptor的设计方案](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md#Disruptor的设计方案)
+- [总结](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md#总结)
 
 ## 背景
 Disruptor是英国外汇交易公司LMAX开发的一个高性能队列，研发的初衷是解决内存队列的延迟问题（在性能测试中发现竟然与I/O操作处于同样的数量级）。基于Disruptor开发的系统单线程能支撑每秒600万订单，2010年在QCon演讲后，获得了业界关注。2011年，企业应用软件专家Martin Fowler专门撰写长文介绍。同年它还获得了Oracle官方的Duke大奖。
@@ -167,7 +167,7 @@ ArrayBlockingQueue有三个成员变量：
 - putIndex：可被元素插入的位置的下标
 - count：队列中元素的数量
 
-![falsesharing](https://github.com/wangtengke/Notes/blob/master/imgs/falsesharing.png)
+![falsesharing](https://github.com/wangtengke/Notes/blob/master/imgs/falseSharing.png)
 
 如上图所示，当生产者线程put一个元素到ArrayBlockingQueue时，putIndex会修改，从而导致消费者线程的缓存中的缓存行无效，需要从主存中重新读取。
 
@@ -200,7 +200,7 @@ Disruptor通过以下设计来解决队列速度慢的问题：
 2. 若是有m个元素可以写入，则返回最大的序列号。这儿主要判断是否会覆盖未读的元素；
 3. 若是返回的正确，则生产者开始写入元素。
 
-![singlewriter](https://github.com/wangtengke/Notes/blob/master/imgs/singlewriter.png)
+![singlewriter](https://github.com/wangtengke/Notes/blob/master/imgs/singleWriter.png)
 
 ### 多个生产者
 多个生产者的情况下，会遇到“如何防止多个线程重复写同一个元素”的问题。Disruptor的解决方法是，每个线程获取不同的一段数组空间进行操作。这个通过CAS很容易达到。只需要在分配元素的时候，通过CAS判断一下这段空间是否已经分配出去即可。
