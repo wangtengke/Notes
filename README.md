@@ -54,7 +54,7 @@
 ## 框架类
 - [**RPC框架**](https://github.com/wangtengke/Notes/blob/master/notes/RPC%E6%A1%86%E6%9E%B6.md)
 - [**消息中间件**](https://github.com/wangtengke/Notes/blob/master/notes/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6.md)
-- **Disruptor并发框架**
+- [**Disruptor并发框架**](https://github.com/wangtengke/Notes/blob/master/notes/Disruptor%E5%B9%B6%E5%8F%91%E6%A1%86%E6%9E%B6.md)
 ## 测试开发相关
 ## 后台框架
 - [**Django Python web 框架**](http://www.runoob.com/django/django-tutorial.html,https://code.ziqiangxuetang.com/django/django-tutorial.html)
