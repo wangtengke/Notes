@@ -34,7 +34,7 @@ RPC 服务方通过 RpcServer 去导出（export）远程接口方法，而客�
 RPC 服务端接收器 RpcAcceptor 接收客户端的调用请求，同样使用RpcProtocol 执行协议解码（decode）。解码后的调用信息传递给RpcProcessor 去控制处理调用过程，最后再委托调用给RpcInvoker 去实际执行并返回调用结果。如下是各个部分的详细职责：
 1. **RpcServer**  
    负责导出（export）远程接口  
-2. **RpcClient** 
+2. **RpcClient**  
    负责导入（import）远程接口的代理实现  
 3. **RpcProxy**  
    远程接口的代理实现  
