@@ -46,6 +46,7 @@ Single thread with lock|	10,000
 Single thread with volatile write|	4,700
 Two threads with CAS|   30,000
 Two threads with lock|	224,000
+
 CAS操作比单线程无锁慢了1个数量级；有锁且多线程并发的情况下，速度比单线程无锁慢3个数量级。可见无锁速度最快。
 
 单线程情况下，不加锁的性能 > CAS操作的性能 > 加锁的性能。
@@ -147,6 +148,7 @@ L3 cache|	约40-45 cycles|	约15ns
 L2 cache|	约10 cycles|	约3ns
 L1 cache|	约3-4 cycles|	约1ns
 寄存器|	1 cycle|
+
 可见CPU读取主存中的数据会比从L1中读取慢了近2个数量级。
 
 **缓存行**
