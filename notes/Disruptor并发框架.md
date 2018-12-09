@@ -60,7 +60,7 @@ CAS操作比单线程无锁慢了1个数量级；有锁且多线程并发的情�
 
 **锁**
 
-![lock]()
+![lock](https://github.com/wangtengke/Notes/blob/master/imgs/lock.png)
 
 采取加锁的方式，默认线程会冲突，访问数据时，先加上锁再访问，访问之后再解锁。通过锁界定一个临界区，同时只有一个线程进入。如上图所示，Thread2访问Entry的时候，加了锁，Thread1就不能再执行访问Entry的代码，从而保证线程安全。
 
@@ -90,7 +90,7 @@ public boolean offer(E e) {
 
 通过原子变量可以实现线程安全。执行某个任务的时候，先假定不会有冲突，若不发生冲突，则直接执行成功；当发生冲突的时候，则执行失败，回滚再重新操作，直到不发生冲突。
 
-![cas]()
+![cas](https://github.com/wangtengke/Notes/blob/master/imgs/cas.png)
 
 如图所示，Thread1和Thread2都要把Entry加1。若不加锁，也不使用CAS，有可能Thread1取到了myValue=1，Thread2也取到了myValue=1，然后相加，Entry中的value值为2。这与预期不相符，我们预期的是Entry的值经过两次相加后等于3。
 
@@ -133,7 +133,7 @@ public final boolean compareAndSet(int expect, int update) {
 
 下图是计算的基本结构。L1、L2、L3分别表示一级缓存、二级缓存、三级缓存，越靠近CPU的缓存，速度越快，容量也越小。所以L1缓存很小但很快，并且紧靠着在使用它的CPU内核；L2大一些，也慢一些，并且仍然只能被一个单独的CPU核使用；L3更大、更慢，并且被单个插槽上的所有CPU核共享；最后是主存，由全部插槽上的所有CPU核共享。
 
-![computer]()
+![computer](https://github.com/wangtengke/Notes/blob/master/imgs/computer.png)
 
 当CPU执行运算的时候，它先去L1查找所需的数据、再去L2、然后是L3，如果最后这些缓存中都没有，所需的数据就要去主内存拿。走得越远，运算耗费的时间就越长。所以如果你在做一些很频繁的事，你要尽量确保数据在L1缓存中。
 
@@ -167,7 +167,7 @@ ArrayBlockingQueue有三个成员变量：
 - putIndex：可被元素插入的位置的下标
 - count：队列中元素的数量
 
-![falsesharing]()
+![falsesharing](https://github.com/wangtengke/Notes/blob/master/imgs/falsesharing.png)
 
 如上图所示，当生产者线程put一个元素到ArrayBlockingQueue时，putIndex会修改，从而导致消费者线程的缓存中的缓存行无效，需要从主存中重新读取。
 
@@ -200,7 +200,7 @@ Disruptor通过以下设计来解决队列速度慢的问题：
 2. 若是有m个元素可以写入，则返回最大的序列号。这儿主要判断是否会覆盖未读的元素；
 3. 若是返回的正确，则生产者开始写入元素。
 
-![singlewriter]()
+![singlewriter](https://github.com/wangtengke/Notes/blob/master/imgs/singlewriter.png)
 
 ### 多个生产者
 多个生产者的情况下，会遇到“如何防止多个线程重复写同一个元素”的问题。Disruptor的解决方法是，每个线程获取不同的一段数组空间进行操作。这个通过CAS很容易达到。只需要在分配元素的时候，通过CAS判断一下这段空间是否已经分配出去即可。
@@ -221,7 +221,7 @@ Disruptor通过以下设计来解决队列速度慢的问题：
 
 然后，消费者读取下标从3到6共计4个元素。
 
-![multWriterReader]()
+![multWriterReader](https://github.com/wangtengke/Notes/blob/master/imgs/multWriterReader.png)
 
 **写数据**
 
@@ -235,7 +235,7 @@ Disruptor通过以下设计来解决队列速度慢的问题：
 
 Writer1写入下标3位置的元素，同时把available Buffer相应位置置位，标记已经写入成功，往后移一位，开始写下标4位置的元素。Writer2同样的方式。最终都写入完成。
 
-![multWriterWrite]()
+![multWriterWrite](https://github.com/wangtengke/Notes/blob/master/imgs/multWriterWrite.png)
 
 防止不同生产者对同一段空间写入的代码，如下所示：
 ```java
