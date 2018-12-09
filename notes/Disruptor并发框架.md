@@ -11,6 +11,7 @@ Disruptor是英国外汇交易公司LMAX开发的一个高性能队列，研发�
 目前，包括Apache Storm、Camel、Log4j 2在内的很多知名项目都应用了Disruptor以获取高性能。
 
 ## Java内置队列
+
   队列|有界性|锁|数据结构
   ---|---|---|---
   ArrayBlockingQueue|bounded|加锁|arraylist
@@ -19,6 +20,7 @@ Disruptor是英国外汇交易公司LMAX开发的一个高性能队列，研发�
  LinkedTransferQueue|unbounded|无锁|linkedlist
  PriorityBlockingQueue|unbounded|加锁|heap
  DelayQueue|unbounded|加锁|heap
+ 
  队列的底层一般分成三种：数组、链表和堆。其中，堆一般情况下是为了实现带有优先级特性的队列，暂且不考虑。
 
 我们就从数组和链表两种数据结构来看，基于数组线程安全的队列，比较典型的是ArrayBlockingQueue，它主要通过加锁的方式来保证线程安全；基于链表的线程安全队列分成LinkedBlockingQueue和ConcurrentLinkedQueue两大类，前者也通过锁的方式来实现线程安全，而后者以及上面表格中的LinkedTransferQueue都是通过原子变量compare and swap（以下简称“CAS”）这种不加锁的方式来实现的。
