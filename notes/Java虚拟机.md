@@ -1,32 +1,32 @@
 # Java虚拟机
-一、运行时数据区域
-- 程序计数器
-- Java 虚拟机栈
-- 本地方法栈
-- 堆
-- 方法区
-- 运行时常量池
-- 直接内存
+[一、运行时数据区域](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#一运行时数据区域)
+- [程序计数器](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#程序计数器)
+- [Java 虚拟机栈](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#java虚拟栈)
+- [本地方法栈](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#本地方法栈)
+- [java堆](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#java堆)
+- [方法区](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#方法区)
+- [运行时常量池](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#运行时常量池)
+- [直接内存](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#直接内存)
 
-二、垃圾收集
-- 判断一个对象是否可被回收
-- 引用类型
-- 垃圾收集算法
-- 垃圾收集器
+[二、垃圾收集](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#垃圾收集)
+- [判断一个对象是否可被回收]()
+- [引用类型]()
+- [垃圾收集算法]()
+- [垃圾收集器]()
 - 
-三、内存分配与回收策略
-- Minor GC 和 Full GC
-- 内存分配策略
-- Full GC 的触发条件
+[三、内存分配与回收策略]()
+- [Minor GC 和 Full GC]()
+- [内存分配策略]()
+- [Full GC 的触发条件]()
 
-四、类加载机制
-- 类的生命周期
-- 类加载过程
-- 类初始化时机
-- 类与类加载器
-- 类加载器分类
-- 双亲委派模型
-- 自定义类加载器实现
+[四、类加载机制]()
+- [类的生命周期]()
+- [类加载过程]()
+- [类初始化时机]()
+- [类与类加载器]()
+- [类加载器分类]()
+- [双亲委派模型]()
+- [自定义类加载器实现]()
 
 # 一、运行时数据区域
 ## 程序计数器
