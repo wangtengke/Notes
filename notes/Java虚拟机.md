@@ -15,9 +15,9 @@
 - [垃圾收集器](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#垃圾收集器)
 - 
 [三、内存分配与回收策略](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#三内存分配与回收策略)
-- [Minor GC 和 Full GC](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#Minor GC 和 Full GC)
+- [Minor GC 和 Full GC](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#MinorGC和FullGC)
 - [内存分配策略](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#内存分配策略)
-- [Full GC 的触发条件](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#Full GC 的触发条件)
+- [Full GC 的触发条件](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#FullGC的触发条件)
 
 [四、类加载机制](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#四类加载机制)
 - [类的生命周期](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md#类的生命周期)
