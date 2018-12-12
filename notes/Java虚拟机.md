@@ -94,7 +94,7 @@ Java 虚拟机使用该算法来判断对象是否可被回收，在 Java 中 GC
 - 方法区中类静态属性引用的对象
 - 方法区中的常量引用的对象
 
-![可达性]()
+![可达性](https://github.com/wangtengke/Notes/blob/master/imgs/%E5%8F%AF%E8%BE%BE%E6%80%A7.png)
 
 **3. 方法区的回收**
 
@@ -165,7 +165,7 @@ obj = null;
 ## 垃圾收集算法
 **1. 标记 - 清除**
 
-![标记-清除]()
+![标记-清除](https://github.com/wangtengke/Notes/blob/master/imgs/%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4.jpg)
 
 标记要回收的对象，然后清除。
 
@@ -176,13 +176,13 @@ obj = null;
 
 **2. 标记 - 整理**
 
-![标记-整理]()
+![标记-整理](https://github.com/wangtengke/Notes/blob/master/imgs/%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86.jpg)
 
 让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。
 
 **3. 复制**
 
-![复制]()
+![复制](https://github.com/wangtengke/Notes/blob/master/imgs/%E5%A4%8D%E5%88%B6.jpg)
 
 将内存划分为大小相等的两块，每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。
 
@@ -208,7 +208,7 @@ HotSpot 虚拟机的 Eden 和 Survivor 的大小比例默认为 8:1，保证了�
 
 **1. Serial 收集器**
 
-![serial收集器]()
+![serial收集器](https://github.com/wangtengke/Notes/blob/master/imgs/serial%E6%94%B6%E9%9B%86%E5%99%A8.jpg)
 
 Serial 翻译为串行，也就是说它以串行的方式执行。
 
@@ -220,7 +220,7 @@ Serial 翻译为串行，也就是说它以串行的方式执行。
 
 **2. ParNew 收集器**
 
-![parnew收集器]()
+![parnew收集器](https://github.com/wangtengke/Notes/blob/master/imgs/parnew%E6%94%B6%E9%9B%86%E5%99%A8.jpg)
 
 它是 Serial 收集器的多线程版本。
 
@@ -242,7 +242,7 @@ Serial 翻译为串行，也就是说它以串行的方式执行。
 
 **4. Serial Old 收集器**
 
-![serialold收集器]()
+![serialold收集器](https://github.com/wangtengke/Notes/blob/master/imgs/serialold%E6%94%B6%E9%9B%86%E5%99%A8.jpg)
 
 是 Serial 收集器的老年代版本，也是给 Client 模式下的虚拟机使用。如果用在 Server 模式下，它有两大用途：
 
@@ -251,7 +251,7 @@ Serial 翻译为串行，也就是说它以串行的方式执行。
 
 **5. Parallel Old 收集器**
 
-![parallelold收集器]()
+![parallelold收集器](https://github.com/wangtengke/Notes/blob/master/imgs/parllelold%E6%94%B6%E9%9B%86%E5%99%A8.jpg)
 
 是 Parallel Scavenge 收集器的老年代版本。
 
@@ -281,17 +281,17 @@ G1（Garbage-First），它是一款面向服务端应用的垃圾收集器，�
 
 堆被分为新生代和老年代，其它收集器进行收集的范围都是整个新生代或者老年代，而 G1 可以直接对新生代和老年代一起回收。
 
-![hotspotheepstructure]()
+![hotspotheepstructure](https://github.com/wangtengke/Notes/blob/master/imgs/hotspotheepstructure.png)
 
 G1 把堆划分成多个大小相等的独立区域（Region），新生代和老年代不再物理隔离。
 
-![g1]()
+![g1](https://github.com/wangtengke/Notes/blob/master/imgs/g1.png)
 
 通过引入 Region 的概念，从而将原来的一整块内存空间划分成多个的小空间，使得每个小空间可以单独进行垃圾回收。这种划分方法带来了很大的灵活性，使得可预测的停顿时间模型成为可能。通过记录每个 Region 垃圾回收时间以及回收所获得的空间（这两个值是通过过去回收的经验获得），并维护一个优先列表，每次根据允许的收集时间，优先回收价值最大的 Region。
 
 每个 Region 都有一个 Remembered Set，用来记录该 Region 对象的引用对象所在的 Region。通过使用 Remembered Set，在做可达性分析的时候就可以避免全堆扫描。
 
-![g12]()
+![g12](https://github.com/wangtengke/Notes/blob/master/imgs/g12.jpg)
 
 如果不计算维护 Remembered Set 的操作，G1 收集器的运作大致可划分为以下几个步骤：
 
@@ -374,7 +374,7 @@ G1 把堆划分成多个大小相等的独立区域（Region），新生代和�
 
 ### 类的生命周期
 
-![类的生命周期]()
+![类的生命周期](https://github.com/wangtengke/Notes/blob/master/imgs/%E7%B1%BB%E5%A4%A7%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.jpg)
 
 包括以下 7 个阶段：
 
@@ -526,7 +526,7 @@ System.out.println(ConstClass.HELLOWORLD);
 
 下图展示的类加载器之间的层次关系，称为类加载器的双亲委派模型（Parents Delegation Model）。该模型要求除了顶层的启动类加载器外，其余的类加载器都应有自己的父类加载器。这里类加载器之间的父子关系一般通过组合（Composition）关系来实现，而不是通过继承（Inheritance）的关系实现。
 
-![双亲伪委派]()
+![双亲伪委派](https://github.com/wangtengke/Notes/blob/master/imgs/class_loader_hierarchy.png)
 
 **1. 工作过程**
 
