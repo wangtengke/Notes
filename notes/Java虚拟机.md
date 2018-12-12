@@ -259,6 +259,8 @@ Serial 翻译为串行，也就是说它以串行的方式执行。
 
 **6. CMS 收集器**
 
+![cms](https://github.com/wangtengke/Notes/blob/master/imgs/cms%E6%94%B6%E9%9B%86%E5%99%A8.jpg)
+
 CMS（Concurrent Mark Sweep），Mark Sweep 指的是标记 - 清除算法。
 
 分为以下四个流程：
