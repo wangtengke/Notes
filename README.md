@@ -1,3 +1,4 @@
+
 # 学习计划
 
 学习时间 | 学习内容| 备注
@@ -59,9 +60,13 @@
 ## 后台框架
 - [**Django Python web 框架**](http://www.runoob.com/django/django-tutorial.html,https://code.ziqiangxuetang.com/django/django-tutorial.html)
 ## 前端框架
+- **Element UI**
 - [**vue**](http://www.runoob.com/vue2/vue-tutorial.html)
 - [**jquery js的库**](https://www.runoob.com/jquery/jquery-tutorial.html)
 - [**Bootstrap html 样式**](http://www.runoob.com/bootstrap/bootstrap-tutorial.html)
 ## AI人工智能
 - **Darknet框架**
 - [**YOLOv3 深度神经网络**](https://pjreddie.com/darknet/yolo/ )
+## 服务器部署
+- **Linux 远程IP**
+- **Docker 镜像容器py2,py3**
