@@ -5,7 +5,7 @@
 ---|---|---
 第一周 (11.26)| 1.学习java集合，hashmap和concurrenthashmap在1.7和1.8的区别<br>2.学习java并发相关知识，synchronized和volatile关键字<br>3.看java虚拟机的书 |写项目的串口程序
 第二周 (12.3)| 1.看activemq，了解queue和topic两种消息传输方式，queue为队列传输，topic为订阅发布<br>2.学习disruptor并发框架，cas无锁操作<br>3.复习+学习netty和rpc框架(正在学习中)，了解netty传输机制，rpc远程调用，服务注册与消费<br>学习springboot+jpa | rpc框架还没学完，需要理解远程代理，争取周末搞定
-第三周 (12.10)| row 1 col 2 |
+第三周 (12.10)| 1.看java虚拟机，了解gc收集器，类加载机制<br>2.刷leetcode题 | 需要准备下面经上的东西
 第四周 (12.17)| row 2 col 2 |
 第五周 (12.24)| row 1 col 2 |
 第六周 (12.31)| row 2 col 2 |
