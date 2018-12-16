@@ -64,7 +64,7 @@ class ConnectIOnHandler extends Thread{
 
 下图是几种常见I/O模型的对比：
 
-![IO模型对比]()
+![IO模型对比](https://github.com/wangtengke/Notes/blob/master/imgs/io%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94.jpg)
 
 以socket.read()为例子：
 
@@ -140,7 +140,7 @@ Java的Selector对于Linux系统来说，有一个致命限制：同一个channe
 
 另外连接的处理和读写的处理通常可以选择分开，这样对于海量连接的注册和读写就可以分发。虽然read()和write()是比较高效无阻塞的函数，但毕竟会占用CPU，如果面对更高的并发则无能为力。
 
-![reactor]()
+![reactor](https://github.com/wangtengke/Notes/blob/master/imgs/reactor.png)
 
 ### 每连接顺序请求的Redis
 对于Redis来说，由于服务端是全局串行的，能够保证同一连接的所有请求与返回顺序一致。这样可以使用单线程＋队列，把请求数据缓冲。然后pipeline发送，返回future，然后channel可读时，直接在队列中把future取回来，done()就可以了。
