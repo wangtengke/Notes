@@ -34,7 +34,7 @@
 - [**Java虚拟机**](https://github.com/wangtengke/Notes/blob/master/notes/Java%E8%99%9A%E6%8B%9F%E6%9C%BA.md)
 - [**Java I/O**](https://github.com/wangtengke/Notes/blob/master/notes/JavaIO.md)
 ## 数据库
-- **数据库原理**
+- [**数据库原理**](https://github.com/wangtengke/Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86.md)
 - **SQL语法**
 - **MYSQL**
 - **Redis**
