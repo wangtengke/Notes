@@ -435,7 +435,7 @@ A线程执行writer()，线程B执行read()，线程B在执行时能否读到 a 
 ## 从JMM角度分析DCL
 在早期的 JVM 中，synchronized（甚至是无竞争的 synchronized）存在这巨大的性能开销。因此，人们想出了一个“聪明”的技巧：双重检查锁定（double-checked locking）。人们想通过双重检查锁定来降低同步的开销。下面是使用双重检查锁定来实现延迟初始化的示例代码：
 ```java
-ublic class DoubleCheckedLocking {                 //1
+public class DoubleCheckedLocking {                 //1
     private static Instance instance;                    //2
 
     public static Instance getInstance() {               //3
